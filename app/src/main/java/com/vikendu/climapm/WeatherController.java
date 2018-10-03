@@ -31,7 +31,7 @@ import cz.msebera.android.httpclient.Header;
 public class WeatherController extends AppCompatActivity {
 
     // Constants:
-    final int REQUEST_CODE = 123;
+    final int REQUEST_CODE = 123; //Can be anything just for tracking our request
     final String WEATHER_URL = "http://api.openweathermap.org/data/2.5/weather";
     // App ID to use OpenWeather data
     final String APP_ID = ""; //ENTER API KEY HERE
@@ -74,7 +74,7 @@ public class WeatherController extends AppCompatActivity {
             public void onClick(View v) {
                 Intent myIntent = new Intent(WeatherController.this, ChangeCityController.class);
                 startActivity(myIntent);
-                finish(); //testing
+                WeatherController.this.finish(); //testing
             }
         });
 
