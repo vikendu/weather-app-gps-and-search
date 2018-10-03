@@ -33,6 +33,7 @@ public class ChangeCityController extends AppCompatActivity {
 
                 newCityIntent.putExtra("city", newCity);
                 startActivity(newCityIntent);
+                finish(); //testing
                 return false;
             }
         });

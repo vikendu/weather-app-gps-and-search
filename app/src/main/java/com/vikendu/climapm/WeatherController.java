@@ -34,7 +34,7 @@ public class WeatherController extends AppCompatActivity {
     final int REQUEST_CODE = 123;
     final String WEATHER_URL = "http://api.openweathermap.org/data/2.5/weather";
     // App ID to use OpenWeather data
-    // final String APP_ID = ""; ENTER API KEY HERE
+    final String APP_ID = ""; //ENTER API KEY HERE
     // Time between location updates (5000 milliseconds or 5 seconds)
     final long MIN_TIME = 5000;
     // Distance between location updates (1000m or 1km)
@@ -46,7 +46,9 @@ public class WeatherController extends AppCompatActivity {
     TextView mCityLabel;
     ImageView mWeatherImage;
     TextView mTemperatureLabel;
-
+    TextView mSpeed;
+    TextView mHumidity;
+    TextView mCondition;
 
     LocationManager mLocationManager;
     LocationListener mLocationListner;
@@ -62,6 +64,9 @@ public class WeatherController extends AppCompatActivity {
         mWeatherImage = (ImageView) findViewById(R.id.weatherSymbolIV);
         mTemperatureLabel = (TextView) findViewById(R.id.tempTV);
         ImageButton changeCityButton = (ImageButton) findViewById(R.id.changeCityButton);
+        mSpeed = (TextView)findViewById(R.id.speed);
+        mHumidity = (TextView)findViewById(R.id.humidity);
+        mCondition = (TextView)findViewById(R.id.condition);
 
 
         changeCityButton.setOnClickListener(new View.OnClickListener() {
@@ -69,7 +74,7 @@ public class WeatherController extends AppCompatActivity {
             public void onClick(View v) {
                 Intent myIntent = new Intent(WeatherController.this, ChangeCityController.class);
                 startActivity(myIntent);
-                //finish();
+                finish(); //testing
             }
         });
 
@@ -86,7 +91,8 @@ public class WeatherController extends AppCompatActivity {
         {
             getWeatherForNewCity(city);
         }
-        else{
+        else
+            {
         getWeatherForCurrentLocation();
     }}
 
@@ -140,7 +146,7 @@ public class WeatherController extends AppCompatActivity {
             }
         };
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
+            // TODO: Consi        android:noHistory="true"der calling
             //    ActivityCompat#requestPermissions
             // here to request the missing permissions, and then overriding
             //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
@@ -202,7 +208,10 @@ public class WeatherController extends AppCompatActivity {
     private void updateUI(WeatherDataModel weather)
     {
         mTemperatureLabel.setText(weather.getmTemperature());
-        mCityLabel.setText(weather.getmCity());
+        mCityLabel.setText(weather.getmCity()+", "+weather.getCountry());
+        mHumidity.setText("Humidity: "+weather.getHumidity()+"%");
+        mSpeed.setText("Wind Speed: "+weather.getSpeed()+"Km/Hr");
+        mCondition.setText("\""+weather.getCondition()+"\"");
 
         int resourceID = getResources().getIdentifier(weather.getmIconName(), "drawable", getPackageName());
 
@@ -214,25 +223,26 @@ public class WeatherController extends AppCompatActivity {
         super.onPause();
         if(mLocationManager != null) mLocationManager.removeUpdates(mLocationListner);
     }
-    boolean doubleBackToExitPressedOnce = false;
-
-    @Override
-    public void onBackPressed() {
-        if (doubleBackToExitPressedOnce) {
-            super.onBackPressed();
-            //System.exit(1);
-            return;
-        }
-
-        this.doubleBackToExitPressedOnce = true;
-        Toast.makeText(this, "Please click BACK again to exit", Toast.LENGTH_SHORT).show();
-
-        new Handler().postDelayed(new Runnable() {
-
-            @Override
-            public void run() {
-                doubleBackToExitPressedOnce=false;
-            }
-        }, 2000);
-    }
+//    boolean doubleBackToExitPressedOnce = false;
+//
+//    @Override
+//    public void onBackPressed() {
+//        if (doubleBackToExitPressedOnce) {
+//            super.onBackPressed();
+//            //System.exit(1);
+//            finish(); //testing
+//            return;
+//        }
+//
+//        this.doubleBackToExitPressedOnce = true;
+//        Toast.makeText(this, "Please click BACK again to exit", Toast.LENGTH_SHORT).show();
+//
+//        new Handler().postDelayed(new Runnable() {
+//
+//            @Override
+//            public void run() {
+//                doubleBackToExitPressedOnce=false;
+//            }
+//        }, 2000);
+//    }
 }

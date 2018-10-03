@@ -5,7 +5,7 @@ import org.json.JSONObject;
 
 public class WeatherDataModel {
 
-    private String mCity, mIconName, mTemperature;
+    private String mCity, mIconName, mTemperature, speed, humidity, condition, country;
     private int mCondition;
 
 
@@ -17,11 +17,21 @@ public class WeatherDataModel {
             weatherData.mCity = jsonObject.getString("name");
             weatherData.mCondition = jsonObject.getJSONArray("weather").getJSONObject(0).getInt("id");
             weatherData.mIconName = updateWeatherIcon(weatherData.mCondition);
+            weatherData.condition = jsonObject.getJSONArray("weather").getJSONObject(0).getString("main");
+            weatherData.country = jsonObject.getJSONObject("sys").getString("country");
+
+            double tempSpeed = jsonObject.getJSONObject("wind").getDouble("speed") * 1.6;
+            int roundSpeed = (int)Math.rint(tempSpeed);
+            weatherData.speed = Integer.toString(roundSpeed);
+
+            int tempHumidity = jsonObject.getJSONObject("main").getInt("humidity");
+            weatherData.humidity = Integer.toString(tempHumidity);
 
             double tempResult = jsonObject.getJSONObject("main").getDouble("temp") - 273.15;
             int roundedValue = (int)Math.rint(tempResult);
-
             weatherData.mTemperature = Integer.toString(roundedValue);
+
+
 
             return weatherData;
         }
@@ -73,5 +83,21 @@ public class WeatherDataModel {
 
     public String getmTemperature() {
         return mTemperature + "°";
+    }
+
+    public String getSpeed() {
+        return speed;
+    }
+
+    public String getHumidity() {
+        return humidity;
+    }
+
+    public String getCondition() {
+        return condition;
+    }
+
+    public String getCountry() {
+        return country;
     }
 }

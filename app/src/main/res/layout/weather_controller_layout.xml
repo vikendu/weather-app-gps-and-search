@@ -48,6 +48,41 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"/>
 
+    <TextView
+        android:id="@+id/humidity"
+        android:layout_width="104dp"
+        android:layout_height="35dp"
+        android:layout_alignStart="@+id/locationTV"
+        android:layout_below="@+id/locationTV"
+        android:layout_marginTop="-70dp"
+        android:text="Humidity"
+        android:textAllCaps="true"
+        android:textColor="#ffffff" />
+
+    <TextView
+        android:id="@+id/speed"
+        android:layout_width="110dp"
+        android:layout_height="36dp"
+        android:layout_below="@+id/locationTV"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="-70dp"
+        android:text="Wind Speed"
+        android:textAllCaps="true"
+        android:textColor="#ffffff" />
+
+    <TextView
+        android:id="@+id/condition"
+        android:layout_width="213dp"
+        android:layout_height="49dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignStart="@+id/locationTV"
+        android:layout_marginTop="122dp"
+        android:text="Condition"
+        android:textAlignment="center"
+        android:textAllCaps="true"
+        android:textColor="#ffffff"
+        android:textSize="24sp" />
+
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="220dp"
