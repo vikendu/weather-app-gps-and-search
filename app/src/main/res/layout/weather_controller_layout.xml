@@ -26,16 +26,17 @@
         android:layout_marginBottom="70dp"/>
 
     <TextView
-        android:layout_width="wrap_content"
+        android:id="@+id/tempTV"
+        android:layout_width="153dp"
         android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/changeCityButton"
+        android:text="@string/default_temp"
+        android:textAppearance="?android:attr/textAppearanceLarge"
         android:textColor="@color/white"
         android:textSize="90sp"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="@string/default_temp"
-        android:id="@+id/tempTV"
-        android:layout_below="@+id/changeCityButton"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"/>
+        android:textAlignment="center"/>
 
     <ImageButton
         android:layout_width="wrap_content"
@@ -72,16 +73,15 @@
 
     <TextView
         android:id="@+id/condition"
-        android:layout_width="213dp"
+        android:layout_width="157dp"
         android:layout_height="49dp"
-        android:layout_alignParentTop="true"
-        android:layout_alignStart="@+id/locationTV"
-        android:layout_marginTop="122dp"
+        android:layout_alignEnd="@+id/tempTV"
+        android:layout_below="@+id/tempTV"
         android:text="Condition"
         android:textAlignment="center"
         android:textAllCaps="true"
         android:textColor="#ffffff"
-        android:textSize="24sp" />
+        android:textSize="26sp" />
 
     <FrameLayout
         android:layout_width="match_parent"
