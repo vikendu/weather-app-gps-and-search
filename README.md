@@ -5,7 +5,7 @@ This app requires Location permission.
 
 Known Bugs:
 Back button is thrown out of whack.
-GPS doesn't lock.
+GPS doesn't always lock.
 
 Next up:
 Location from Mobile towers instead of GPS.
