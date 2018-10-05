@@ -38,14 +38,15 @@
         android:gravity="center_vertical|center_horizontal"/>
 
     <TextView
+        android:id="@+id/getWeatherTV"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="190dp"
         android:text="@string/get_weather"
-        android:textColor="@color/white"
-        android:textSize="50sp"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:id="@+id/getWeatherTV"
-        android:layout_below="@+id/backButton"
-        android:layout_centerHorizontal="true"/>
+        android:textColor="@color/white"
+        android:textSize="50sp" />
 
 </RelativeLayout>

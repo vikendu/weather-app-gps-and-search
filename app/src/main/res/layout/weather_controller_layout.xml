@@ -13,30 +13,29 @@
 
 
     <TextView
+        android:id="@+id/locationTV"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:layout_above="@+id/speed"
+
         android:text="@string/default_location"
-        android:id="@+id/locationTV"
+        android:textAppearance="?android:attr/textAppearanceLarge"
         android:textColor="@color/white"
-        android:textSize="40sp"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginBottom="70dp"/>
+        android:textSize="40sp" />
 
     <TextView
         android:id="@+id/tempTV"
-        android:layout_width="153dp"
-        android:layout_height="wrap_content"
+        android:layout_width="151dp"
+        android:layout_height="105dp"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
         android:layout_below="@+id/changeCityButton"
-        android:text="@string/default_temp"
+        android:layout_marginTop="16dp"
+        android:text="@string/waiting"
+        android:textAlignment="viewEnd"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:textColor="@color/white"
-        android:textSize="90sp"
-        android:textAlignment="center"/>
+        android:textSize="90sp" />
 
     <ImageButton
         android:layout_width="wrap_content"
@@ -54,9 +53,8 @@
         android:layout_width="104dp"
         android:layout_height="35dp"
         android:layout_alignStart="@+id/locationTV"
-        android:layout_below="@+id/locationTV"
-        android:layout_marginTop="-70dp"
-        android:text="Humidity"
+        android:layout_alignTop="@+id/speed"
+        android:text="@string/waiting"
         android:textAllCaps="true"
         android:textColor="#ffffff" />
 
@@ -64,20 +62,19 @@
         android:id="@+id/speed"
         android:layout_width="110dp"
         android:layout_height="36dp"
-        android:layout_below="@+id/locationTV"
+        android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="-70dp"
-        android:text="Wind Speed"
+        android:layout_marginBottom="30dp"
+        android:text="@string/waiting"
         android:textAllCaps="true"
         android:textColor="#ffffff" />
 
     <TextView
         android:id="@+id/condition"
-        android:layout_width="157dp"
+        android:layout_width="198dp"
         android:layout_height="49dp"
-        android:layout_alignEnd="@+id/tempTV"
-        android:layout_below="@+id/tempTV"
-        android:text="Condition"
+        android:layout_alignBottom="@+id/tempTV"
+        android:text="@string/waiting"
         android:textAlignment="center"
         android:textAllCaps="true"
         android:textColor="#ffffff"

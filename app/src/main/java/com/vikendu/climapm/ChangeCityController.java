@@ -32,7 +32,12 @@ public class ChangeCityController extends AppCompatActivity {
                 Intent newCityIntent = new Intent(ChangeCityController.this, WeatherController.class);
 
                 newCityIntent.putExtra("city", newCity);
+
+                //The following 2 flags clear the stack and prevent multiple instances being launched
+                newCityIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                newCityIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(newCityIntent);
+
                 finish(); //testing
                 return false;
             }

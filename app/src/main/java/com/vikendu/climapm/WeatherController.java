@@ -74,7 +74,7 @@ public class WeatherController extends AppCompatActivity {
             public void onClick(View v) {
                 Intent myIntent = new Intent(WeatherController.this, ChangeCityController.class);
                 startActivity(myIntent);
-                WeatherController.this.finish(); //testing
+                //finish(); //testing
             }
         });
 
@@ -223,26 +223,26 @@ public class WeatherController extends AppCompatActivity {
         super.onPause();
         if(mLocationManager != null) mLocationManager.removeUpdates(mLocationListner);
     }
-//    boolean doubleBackToExitPressedOnce = false;
-//
-//    @Override
-//    public void onBackPressed() {
-//        if (doubleBackToExitPressedOnce) {
-//            super.onBackPressed();
-//            //System.exit(1);
-//            finish(); //testing
-//            return;
-//        }
-//
-//        this.doubleBackToExitPressedOnce = true;
-//        Toast.makeText(this, "Please click BACK again to exit", Toast.LENGTH_SHORT).show();
-//
-//        new Handler().postDelayed(new Runnable() {
-//
-//            @Override
-//            public void run() {
-//                doubleBackToExitPressedOnce=false;
-//            }
-//        }, 2000);
-//    }
+    boolean doubleBackToExitPressedOnce = false;
+
+    @Override
+    public void onBackPressed() {
+        if (doubleBackToExitPressedOnce) {
+            super.onBackPressed();
+            //System.exit(1);
+            finish(); //testing
+            return;
+        }
+
+        this.doubleBackToExitPressedOnce = true;
+        Toast.makeText(this, "Please click BACK again to exit", Toast.LENGTH_SHORT).show();
+
+        new Handler().postDelayed(new Runnable() {
+
+            @Override
+            public void run() {
+                doubleBackToExitPressedOnce=false;
+            }
+        }, 2000);
+    }
 }

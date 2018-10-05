@@ -17,8 +17,11 @@
             android:screenOrientation="portrait">
 
         </activity>
-        <activity android:name=".ChangeCityController" />
-        <activity android:name=".SplashActivity">
+        <activity android:name=".ChangeCityController"
+                  android:screenOrientation="portrait"/>
+        <activity android:name=".SplashActivity"
+                  android:screenOrientation="portrait">
+
             <intent-filter>
             <action android:name="android.intent.action.MAIN" />
 

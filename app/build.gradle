@@ -8,7 +8,7 @@ android {
         minSdkVersion 16
         targetSdkVersion 27
         versionCode 1
-        versionName "v0.8alpha-rc-15"
+        versionName "v0.9Beta-rc-15"
     }
     buildTypes {
         release {
@@ -24,4 +24,5 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     implementation 'com.android.support:appcompat-v7:27.0.2'
     implementation 'com.loopj.android:android-async-http:1.4.9'
+    implementation 'com.android.support:recyclerview-v7:27.0.2'
 }
