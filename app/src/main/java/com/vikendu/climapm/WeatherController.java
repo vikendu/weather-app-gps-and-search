@@ -141,6 +141,9 @@ public class WeatherController extends AppCompatActivity {
 
             @Override
             public void onProviderDisabled(String provider) {
+                for(int i = 0; i < 2; i++) {
+                    Toast.makeText(WeatherController.this, "Turn GPS on!", Toast.LENGTH_SHORT).show();
+                }
                 Log.d("weatherapp", "Provider disabled Callback");
 
             }
