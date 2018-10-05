@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<android.support.constraint.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -9,99 +10,125 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     android:background="@drawable/weather_background"
-    tools:context="com.vikendu.climapm.WeatherController">
+    tools:context="com.vikendu.climapm.WeatherController"
+    android:id="@+id/relativeLayout">
 
 
     <TextView
         android:id="@+id/locationTV"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/speed"
 
+        android:layout_marginTop="128dp"
         android:text="@string/default_location"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:textColor="@color/white"
-        android:textSize="40sp" />
+        android:textSize="40sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/frameLayout" />
 
     <TextView
         android:id="@+id/tempTV"
-        android:layout_width="151dp"
-        android:layout_height="105dp"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:layout_below="@+id/changeCityButton"
-        android:layout_marginTop="16dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="50dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="2dp"
         android:text="@string/waiting"
         android:textAlignment="viewEnd"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:textColor="@color/white"
-        android:textSize="90sp" />
+        android:textSize="90sp"
+        app:layout_constraintBottom_toTopOf="@+id/frameLayout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/changeCityButton" />
 
     <ImageButton
+        android:id="@+id/changeCityButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/changeCityButton"
-        android:src="@drawable/change_city_symbol_small"
-        android:contentDescription="@string/change_city_description"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="8dp"
         android:background="@null"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"/>
+        android:contentDescription="@string/change_city_description"
+        android:src="@drawable/change_city_symbol_small"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/humidity"
-        android:layout_width="104dp"
-        android:layout_height="35dp"
-        android:layout_alignStart="@+id/locationTV"
-        android:layout_alignTop="@+id/speed"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
         android:text="@string/waiting"
         android:textAllCaps="true"
-        android:textColor="#ffffff" />
+        android:textColor="#ffffff"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/locationTV"
+        app:layout_constraintVertical_bias="0.060000002" />
 
     <TextView
         android:id="@+id/speed"
-        android:layout_width="160dp"
-        android:layout_height="36dp"
-        android:layout_alignParentBottom="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
 
-        android:layout_alignParentEnd="true"
-
-        android:layout_marginBottom="50dp"
-        android:layout_marginEnd="106dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginStart="8dp"
         android:text="@string/waiting"
         android:textAllCaps="true"
-        android:textColor="#ffffff" />
+        android:textColor="#ffffff"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/humidity"
+        app:layout_constraintTop_toBottomOf="@+id/locationTV"
+        app:layout_constraintVertical_bias="0.060000002" />
 
     <TextView
         android:id="@+id/condition"
-        android:layout_width="198dp"
-        android:layout_height="49dp"
-        android:layout_alignParentTop="true"
-        android:layout_marginTop="125dp"
-        android:layout_toStartOf="@+id/tempTV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="90dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="120dp"
         android:text="@string/waiting"
         android:textAlignment="center"
         android:textAllCaps="true"
         android:textColor="#ffffff"
-        android:textSize="26sp" />
+        android:textSize="26sp"
+        app:layout_constraintBottom_toTopOf="@+id/frameLayout"
+        app:layout_constraintEnd_toStartOf="@+id/tempTV"
+        app:layout_constraintHorizontal_bias="0.34"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <FrameLayout
+        android:id="@+id/frameLayout"
         android:layout_width="match_parent"
         android:layout_height="220dp"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        android:layout_alignParentStart="false"
-        android:layout_alignParentLeft="false"
-        >
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
+            android:id="@+id/weatherSymbolIV"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:id="@+id/weatherSymbolIV"
-            android:src="@drawable/dunno"
             android:contentDescription="@string/weather_description"
+            android:src="@drawable/dunno"
 
             />
     </FrameLayout>
 
-</RelativeLayout>
+</android.support.constraint.ConstraintLayout>
