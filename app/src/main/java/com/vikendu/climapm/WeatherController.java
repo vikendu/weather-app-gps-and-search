@@ -7,12 +7,17 @@ import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
+import android.support.design.widget.NavigationView;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.Gravity;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -40,7 +45,6 @@ public class WeatherController extends AppCompatActivity {
     // Distance between location updates (1000m or 1km)
     final float MIN_DISTANCE = 1000;
 
-
     String LOCATION_PROVIDER = LocationManager.GPS_PROVIDER;
 
     TextView mCityLabel;
@@ -49,6 +53,8 @@ public class WeatherController extends AppCompatActivity {
     TextView mSpeed;
     TextView mHumidity;
     TextView mCondition;
+    NavigationView mNavigationView;
+    DrawerLayout mDrawer;
 
     LocationManager mLocationManager;
     LocationListener mLocationListner;
@@ -64,9 +70,27 @@ public class WeatherController extends AppCompatActivity {
         mWeatherImage = (ImageView) findViewById(R.id.weatherSymbolIV);
         mTemperatureLabel = (TextView) findViewById(R.id.tempTV);
         ImageButton changeCityButton = (ImageButton) findViewById(R.id.changeCityButton);
+        ImageButton mNavDrawer = (ImageButton) findViewById(R.id.nav_button);
         mSpeed = (TextView)findViewById(R.id.speed);
         mHumidity = (TextView)findViewById(R.id.humidity);
         mCondition = (TextView)findViewById(R.id.condition);
+        mNavigationView = findViewById(R.id.nav_view);
+        mDrawer = findViewById(R.id.my_drawer);
+
+        mNavigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+                //menuItem.setChecked(true);
+
+                Log.d("drawer","touch detected");
+                Intent i = new Intent(Intent.ACTION_VIEW,
+                        Uri.parse("https://github.com/vikendu/weather-app-gps-and-search"));
+                startActivity(i);
+
+                mDrawer.closeDrawers();
+                return true;
+            }
+        });
 
 
         changeCityButton.setOnClickListener(new View.OnClickListener() {
@@ -74,10 +98,19 @@ public class WeatherController extends AppCompatActivity {
             public void onClick(View v) {
                 Intent myIntent = new Intent(WeatherController.this, ChangeCityController.class);
                 startActivity(myIntent);
-                //finish(); //testing
+                //Ambiguity in using the following finish()
+                //It does stop the activity but using the back button while navigating resumes it(onResume())
+                //Use the flags from intents package
+                //finish();
             }
         });
 
+        mNavDrawer.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mDrawer.openDrawer(Gravity.START);
+            }
+        });
     }
 
 
