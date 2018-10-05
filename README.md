@@ -7,7 +7,7 @@ Bugs:
 You tell me.(With logs, please!)
 
 Next up:
-Location from Mobile towers instead of GPS.
+Reducing RAM usage.
 Using custom API key.
 Live background.
 Recent Cities.
