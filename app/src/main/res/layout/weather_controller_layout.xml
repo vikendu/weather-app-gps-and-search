@@ -60,11 +60,14 @@
 
     <TextView
         android:id="@+id/speed"
-        android:layout_width="110dp"
+        android:layout_width="160dp"
         android:layout_height="36dp"
         android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="30dp"
+
+        android:layout_alignParentEnd="true"
+
+        android:layout_marginBottom="50dp"
+        android:layout_marginEnd="106dp"
         android:text="@string/waiting"
         android:textAllCaps="true"
         android:textColor="#ffffff" />
@@ -73,7 +76,9 @@
         android:id="@+id/condition"
         android:layout_width="198dp"
         android:layout_height="49dp"
-        android:layout_alignBottom="@+id/tempTV"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="125dp"
+        android:layout_toStartOf="@+id/tempTV"
         android:text="@string/waiting"
         android:textAlignment="center"
         android:textAllCaps="true"
