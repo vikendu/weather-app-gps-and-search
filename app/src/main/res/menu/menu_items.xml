@@ -4,6 +4,11 @@
         android:id="@+id/top">
 
         <item
+            android:id="@+id/refresh"
+            android:icon="@drawable/baseline_refresh_black_24dp"
+            android:title="Refresh Current Location" />
+
+        <item
             android:id="@+id/changeCity"
             android:icon="@drawable/baseline_location_on_black_24dp"
             android:title="Change Location" />

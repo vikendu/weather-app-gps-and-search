@@ -2,7 +2,6 @@ package com.vikendu.climapm;
 
 import android.Manifest;
 import android.app.AlertDialog;
-import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -16,7 +15,6 @@ import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.ActivityCompat;
-import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -102,7 +100,7 @@ public class WeatherController extends AppCompatActivity {
                     final AlertDialog.Builder alert = new AlertDialog.Builder(WeatherController.this);
                     alert.setTitle("About");
                     alert.setCancelable(true);
-                    alert.setMessage("Version: v1.0-Stable-rc-5\nRelease Date: 6th October, 2018");
+                    alert.setMessage("Version: v1.1-Stable-rc-7\nRelease Date: 6th October, 2018");
                     alert.setPositiveButton("Close", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
@@ -110,6 +108,11 @@ public class WeatherController extends AppCompatActivity {
                         }
                     });
                     alert.show();
+                }
+                else if(menuItem.getTitle().equals("Refresh Current Location"))
+                {
+                    getWeatherForCurrentLocation();
+                    Toast.makeText(WeatherController.this, "Refreshing Location...", Toast.LENGTH_SHORT).show();
                 }
                 else {}
 
@@ -119,17 +122,17 @@ public class WeatherController extends AppCompatActivity {
         });
 
 
-        changeCityButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent myIntent = new Intent(WeatherController.this, ChangeCityController.class);
-                startActivity(myIntent);
-                //Ambiguity in using the following finish()
-                //It does stop the activity but using the back button while navigating resumes it(onResume())
-                //Use the flags from intents package
-                //finish();
-            }
-        });
+//        changeCityButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent myIntent = new Intent(WeatherController.this, ChangeCityController.class);
+//                startActivity(myIntent);
+//                //Ambiguity in using the following finish()
+//                //It does stop the activity but using the back button while navigating resumes it(onResume())
+//                //Use the flags from intents package
+//                //finish();
+//            }
+//        });
 
         mNavDrawer.setOnClickListener(new View.OnClickListener() {
             @Override
