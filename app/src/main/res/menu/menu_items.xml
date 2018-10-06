@@ -1,11 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-    <group android:checkableBehavior="single">
+    <group android:checkableBehavior="single"
+        android:id="@+id/top">
+
+        <item
+            android:id="@+id/changeCity"
+            android:icon="@drawable/baseline_location_on_black_24dp"
+            android:title="Change Location" />
+
         <item
             android:id="@+id/issues"
-            android:checkable="true"
             android:icon="@drawable/baseline_warning_black_18dp"
-            android:title="Report Issues"
-            android:visible="true" />
+            android:title="Report an issue" />
+    </group>
+    <group android:id="@+id/bottom"
+        android:checkableBehavior="single">
+
+    <item
+        android:id="@+id/about"
+        android:icon="@drawable/baseline_android_black_24dp"
+        android:title="About" />
     </group>
 </menu>

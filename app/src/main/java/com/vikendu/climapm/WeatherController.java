@@ -1,7 +1,10 @@
 package com.vikendu.climapm;
 
 import android.Manifest;
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
@@ -13,6 +16,7 @@ import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -45,7 +49,7 @@ public class WeatherController extends AppCompatActivity {
     // Distance between location updates (1000m or 1km)
     final float MIN_DISTANCE = 1000;
 
-    String LOCATION_PROVIDER = LocationManager.GPS_PROVIDER;
+    String LOCATION_PROVIDER = LocationManager.NETWORK_PROVIDER;
 
     TextView mCityLabel;
     ImageView mWeatherImage;
@@ -81,14 +85,36 @@ public class WeatherController extends AppCompatActivity {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
                 //menuItem.setChecked(true);
+                if(menuItem.getTitle().equals("Report an issue")) {
+                    Log.d("drawer", "touch detected");
+                    Intent i = new Intent(Intent.ACTION_VIEW,
+                            Uri.parse("https://github.com/vikendu/weather-app-gps-and-search"));
+                    startActivity(i);
+                }
+                else if(menuItem.getTitle().equals("Change Location"))
+                {
 
-                Log.d("drawer","touch detected");
-                Intent i = new Intent(Intent.ACTION_VIEW,
-                        Uri.parse("https://github.com/vikendu/weather-app-gps-and-search"));
-                startActivity(i);
+                    Intent myIntent = new Intent(WeatherController.this, ChangeCityController.class);
+                    startActivity(myIntent);
+                }
+                else if(menuItem.getTitle().equals("About"))
+                {
+                    final AlertDialog.Builder alert = new AlertDialog.Builder(WeatherController.this);
+                    alert.setTitle("About");
+                    alert.setCancelable(true);
+                    alert.setMessage("Version: v1.0-Stable-rc-5\nRelease Date: 6th October, 2018");
+                    alert.setPositiveButton("Close", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    });
+                    alert.show();
+                }
+                else {}
 
-                mDrawer.closeDrawers();
-                return true;
+                mDrawer.closeDrawer(Gravity.START);
+                return false;
             }
         });
 
