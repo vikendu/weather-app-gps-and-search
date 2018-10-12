@@ -6,8 +6,4 @@ This app requires Location permission.
 Bugs:
 You tell me.(With logs, please!)
 
-Next up:
-Using custom API key.
-Recent Cities.
-
 Abandoned as of 6th October 2018.
