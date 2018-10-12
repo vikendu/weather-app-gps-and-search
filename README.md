@@ -7,7 +7,7 @@ Bugs:
 You tell me.(With logs, please!)
 
 Next up:
-Reducing RAM usage.
 Using custom API key.
-Live background.
 Recent Cities.
+
+Abandoned as of 6th October 2018.
