@@ -36,8 +36,8 @@ public class ChangeCityController extends AppCompatActivity {
                 //The following 2 flags clear the stack and prevent multiple instances being launched
                 newCityIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 newCityIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(newCityIntent);
 
+                startActivity(newCityIntent);
                 finish(); //testing
                 return false;
             }

@@ -31,8 +31,6 @@ public class WeatherDataModel {
             int roundedValue = (int)Math.rint(tempResult);
             weatherData.mTemperature = Integer.toString(roundedValue);
 
-
-
             return weatherData;
         }
         catch (JSONException e)

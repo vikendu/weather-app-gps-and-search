@@ -32,6 +32,9 @@ import com.loopj.android.http.RequestParams;
 
 import org.json.JSONObject;
 
+import java.util.Calendar;
+import java.util.Date;
+
 import cz.msebera.android.httpclient.Header;
 
 
@@ -44,7 +47,7 @@ public class WeatherController extends AppCompatActivity {
     final String APP_ID = ""; //ENTER API KEY HERE
     // Time between location updates (5000 milliseconds or 5 seconds)
     final long MIN_TIME = 5000;
-    // Distance between location updates (1000m or 1km)
+    // Distance between location updates in metres
     final float MIN_DISTANCE = 1000;
 
     String LOCATION_PROVIDER = LocationManager.NETWORK_PROVIDER;
@@ -57,6 +60,7 @@ public class WeatherController extends AppCompatActivity {
     TextView mCondition;
     NavigationView mNavigationView;
     DrawerLayout mDrawer;
+    TextView mCredits;
 
     LocationManager mLocationManager;
     LocationListener mLocationListner;
@@ -66,6 +70,7 @@ public class WeatherController extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.weather_controller_layout);
+        //setContentView(R.layout.credits_layout);
 
         // Linking the elements in the layout to Java code
         mCityLabel = (TextView) findViewById(R.id.locationTV);
@@ -78,6 +83,12 @@ public class WeatherController extends AppCompatActivity {
         mCondition = (TextView)findViewById(R.id.condition);
         mNavigationView = findViewById(R.id.nav_view);
         mDrawer = findViewById(R.id.my_drawer);
+
+        View header = mNavigationView.getHeaderView(0);
+        mCredits = header.findViewById(R.id.credits);
+
+        Date currentTime = Calendar.getInstance().getTime();
+        mCredits.setText("Last Updated: "+currentTime);
 
         mNavigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -100,7 +111,7 @@ public class WeatherController extends AppCompatActivity {
                     final AlertDialog.Builder alert = new AlertDialog.Builder(WeatherController.this);
                     alert.setTitle("About");
                     alert.setCancelable(true);
-                    alert.setMessage("Version: v1.1-Stable-rc-7\nRelease Date: 6th October, 2018");
+                    alert.setMessage("Version: v1.1-Stable-rc-11\nRelease Date: 12th October, 2018");
                     alert.setPositiveButton("Close", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
@@ -121,19 +132,6 @@ public class WeatherController extends AppCompatActivity {
             }
         });
 
-
-//        changeCityButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent myIntent = new Intent(WeatherController.this, ChangeCityController.class);
-//                startActivity(myIntent);
-//                //Ambiguity in using the following finish()
-//                //It does stop the activity but using the back button while navigating resumes it(onResume())
-//                //Use the flags from intents package
-//                //finish();
-//            }
-//        });
-
         mNavDrawer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -141,7 +139,6 @@ public class WeatherController extends AppCompatActivity {
             }
         });
     }
-
 
     @Override
     protected void onResume() {
@@ -158,7 +155,6 @@ public class WeatherController extends AppCompatActivity {
         getWeatherForCurrentLocation();
     }}
 
-
     private void getWeatherForNewCity(String city)
     {
         RequestParams params = new RequestParams();
@@ -167,13 +163,14 @@ public class WeatherController extends AppCompatActivity {
         letsDoSomeNetworking(params);
     }
 
-
     private void getWeatherForCurrentLocation() {
         mLocationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 
         mLocationListner = new LocationListener() {
             @Override
             public void onLocationChanged(Location location) {
+
+                mCityLabel.setText("GPS Connecting...");
 
                 Log.d("weatherapp", "Location Changed Callback");
                 String longitude = String.valueOf(location.getLongitude());
@@ -186,8 +183,6 @@ public class WeatherController extends AppCompatActivity {
                 params.put("lon", longitude);
                 params.put("appid", APP_ID);
                 letsDoSomeNetworking(params);
-
-
 
             }
 
@@ -204,6 +199,7 @@ public class WeatherController extends AppCompatActivity {
             @Override
             public void onProviderDisabled(String provider) {
                 for(int i = 0; i < 2; i++) {
+                    //mCityLabel.setText("GPS Disabled...");
                     Toast.makeText(WeatherController.this, "Turn GPS on!", Toast.LENGTH_SHORT).show();
                 }
                 Log.d("weatherapp", "Provider disabled Callback");
@@ -268,8 +264,6 @@ public class WeatherController extends AppCompatActivity {
         });
     }
 
-
-
     private void updateUI(WeatherDataModel weather)
     {
         mTemperatureLabel.setText(weather.getmTemperature());
@@ -294,8 +288,9 @@ public class WeatherController extends AppCompatActivity {
     public void onBackPressed() {
         if (doubleBackToExitPressedOnce) {
             super.onBackPressed();
+            //Too abrupt of an end to the app, animations are skipped
             //System.exit(1);
-            finish(); //testing
+            WeatherController.this.finish(); //testing
             return;
         }
 
