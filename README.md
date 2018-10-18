@@ -7,7 +7,7 @@ Update:
 This app can only be used by me and my family members, to share each other's location as well as the weather in their current location using FireBaseDB.
 
 Features:
-Asynchronous HTTP Client(UI thread never stops)<\br>
+Asynchronous HTTP Client(UI thread never stops).  
 Location Data using Mobile Networks.
 Last known location stored in FireBase DB.
 Access to every other family member's location.
