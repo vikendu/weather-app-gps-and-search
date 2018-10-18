@@ -3,7 +3,9 @@ This app uses open weather's api to get weather by either using the gps co-ordin
 Use your own API key. You can get free API key on openweathermaps.com
 This app requires Location permission.
 
-Bugs:
-You tell me.(With logs, please!)
+Update:
+This app can only be used by me and my family members, to share each other's location as well as the weather in their current location using FireBaseDB.
 
-Abandoned as of 6th October 2018.
+Bugs:
+Let me know(with logs)
+
