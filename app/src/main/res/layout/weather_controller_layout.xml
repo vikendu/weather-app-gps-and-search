@@ -26,18 +26,20 @@
     android:id="@+id/relativeLayout">
 
 
-    <TextView
-        android:id="@+id/locationTV"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        <TextView
+            android:id="@+id/locationTV"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
 
-        android:layout_marginTop="128dp"
-        android:text="@string/default_location"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:textColor="@color/white"
-        android:textSize="40sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/frameLayout" />
+            android:layout_marginBottom="96dp"
+            android:layout_marginTop="128dp"
+            android:text="@string/default_location"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textColor="@color/white"
+            android:textSize="40dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/frameLayout" />
 
         <TextView
             android:id="@+id/tempTV"
@@ -125,6 +127,7 @@
             android:id="@+id/locationof"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="12dp"
             android:layout_marginTop="106dp"
             android:textAllCaps="true"
             android:textColor="#FFFFFF"

@@ -39,6 +39,13 @@
     <group android:id="@+id/bottom"
         android:checkableBehavior="single">
 
+        <item android:id="@+id/share"
+            android:icon="@drawable/share"
+            android:title="Share on WhatsApp"/>
+
+    <item android:id="@+id/login_info"
+        android:icon="@drawable/logininfo"
+        android:title="User Info"/>
     <item
         android:id="@+id/about"
         android:icon="@drawable/baseline_android_black_24dp"

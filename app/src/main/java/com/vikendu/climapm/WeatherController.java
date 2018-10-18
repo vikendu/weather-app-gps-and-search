@@ -6,15 +6,18 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.FileProvider;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -37,6 +40,8 @@ import com.loopj.android.http.RequestParams;
 
 import org.json.JSONObject;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -74,7 +79,7 @@ public class WeatherController extends AppCompatActivity {
     LocationManager mLocationManager;
     LocationListener mLocationListner;
 
-    DatabaseReference rootRef, didiRef, viduRef;
+    DatabaseReference rootRef, didiRef, viduRef, mammaRef, papaRef;
 
     Boolean flag;
 
@@ -112,18 +117,55 @@ public class WeatherController extends AppCompatActivity {
         //database reference pointing to user specific node
         didiRef = rootRef.child("didi");
         viduRef = rootRef.child("vidu");
+        mammaRef = rootRef.child("mamma");
+        papaRef = rootRef.child("papa");
 
         mNavigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
                 //menuItem.setChecked(true);
                 if(menuItem.getTitle().equals("Report an issue")) {
-//                    Log.d("drawer", "touch detected");
-//                    Intent i = new Intent(Intent.ACTION_VIEW,
-//                            Uri.parse("https://github.com/vikendu/weather-app-gps-and-search"));
-//                    startActivity(i);
-                    Toast.makeText(WeatherController.this, "Not for you!", Toast.LENGTH_SHORT).show();
+                    Log.d("drawer", "touch detected");
+                    Intent i = new Intent(Intent.ACTION_VIEW,
+                            Uri.parse("https://github.com/vikendu/weather-app-gps-and-search"));
+                    startActivity(i);
+                    //Toast.makeText(WeatherController.this, "Not for you!", Toast.LENGTH_SHORT).show();
 
+                }
+                else if(menuItem.getTitle().equals("Share on WhatsApp"))
+                {
+                    mDrawer.closeDrawer(Gravity.START);
+                    Handler handler = new Handler();
+                    handler.postDelayed(new Runnable(){
+                        @Override
+                        public void run(){
+                            // do something
+                            takeScreenshot();
+                        }
+                    }, 1000);
+                    //takeScreenshot();
+
+                }
+                else if(menuItem.getTitle().equals("User Info"))
+                {
+                    final AlertDialog.Builder alert = new AlertDialog.Builder(WeatherController.this);
+                    FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                    alert.setTitle("User Info:");
+                    alert.setCancelable(true);
+                    Boolean access = false;
+                    String email = user.getEmail();
+                    if(email.equals("vikendu@gmail.com"))
+                    {
+                        access = true;
+                    }
+                    alert.setMessage("User: "+email+"\nAdministrator Access: "+access);
+                    alert.setPositiveButton("Close", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    });
+                    alert.show();
                 }
                 else if(menuItem.getTitle().equals("Change Location"))
                 {
@@ -136,7 +178,7 @@ public class WeatherController extends AppCompatActivity {
                     final AlertDialog.Builder alert = new AlertDialog.Builder(WeatherController.this);
                     alert.setTitle("About");
                     alert.setCancelable(true);
-                    alert.setMessage("Version: v1.1-Stable-rc-11\nRelease Date: 12th October, 2018");
+                    alert.setMessage("Version: v2.0-Stable-rc-5\nRelease Date: 19th October, 2018");
                     alert.setPositiveButton("Close", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
@@ -155,8 +197,6 @@ public class WeatherController extends AppCompatActivity {
                     viduRef.addValueEventListener(new ValueEventListener() {
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
-                            // This method is called once with the initial value and again
-                            // whenever data at this location is updated.
                             String value = dataSnapshot.getValue(String.class);
                             Log.d("TAG", "Value is: " + value);
                             getWeatherForNewCity(value);
@@ -178,8 +218,6 @@ public class WeatherController extends AppCompatActivity {
                     didiRef.addValueEventListener(new ValueEventListener() {
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
-                            // This method is called once with the initial value and again
-                            // whenever data at this location is updated.
                             String value = dataSnapshot.getValue(String.class);
                             Log.d("TAG", "Value is: " + value);
                             getWeatherForNewCity(value);
@@ -192,15 +230,47 @@ public class WeatherController extends AppCompatActivity {
                             Log.w("TAG", "Failed to read value.", error.toException());
                         }
                     });
-                    //getWeatherForNewCity("New Delhi");
                     Toast.makeText(WeatherController.this, "Didi's Location!", Toast.LENGTH_SHORT).show();
 
                 }
-                else if(menuItem.getTitle().equals("Mamma") || menuItem.getTitle().equals("Papa") )
+                else if(menuItem.getTitle().equals("Mamma"))
                 {
-                    getWeatherForNewCity("Jaisalmer");
-                    mLocationAt.setText("Mamma & Papa are at:");
-                    Toast.makeText(WeatherController.this, "Refreshing Location...", Toast.LENGTH_SHORT).show();
+                    mammaRef.addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            String value = dataSnapshot.getValue(String.class);
+                            Log.d("TAG", "Value is: " + value);
+                            getWeatherForNewCity(value);
+                            mLocationAt.setText("Mamma is at:");
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError error) {
+                            // Failed to read value
+                            Log.w("TAG", "Failed to read value.", error.toException());
+                        }
+                    });
+                    Toast.makeText(WeatherController.this, "Mamma's Location...", Toast.LENGTH_SHORT).show();
+
+                }
+                else if(menuItem.getTitle().equals("Papa"))
+                {
+                    papaRef.addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            String value = dataSnapshot.getValue(String.class);
+                            Log.d("TAG", "Value is: " + value);
+                            getWeatherForNewCity(value);
+                            mLocationAt.setText("Papa is at:");
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError error) {
+                            // Failed to read value
+                            Log.w("TAG", "Failed to read value.", error.toException());
+                        }
+                    });
+                    Toast.makeText(WeatherController.this, "Papa's Location...", Toast.LENGTH_SHORT).show();
 
                 }
                 else {}
@@ -232,8 +302,9 @@ public class WeatherController extends AppCompatActivity {
         else
             {
                 flag = true;
-        getWeatherForCurrentLocation();
-    }}
+                getWeatherForCurrentLocation();
+            }
+    }
 
     private void getWeatherForNewCity(String city)
     {
@@ -369,6 +440,7 @@ public class WeatherController extends AppCompatActivity {
     private void updateUser(WeatherDataModel weather)
     {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+
         if (user != null) {
             // Name, email address, and profile photo Url
             String email = user.getEmail();
@@ -382,11 +454,72 @@ public class WeatherController extends AppCompatActivity {
                 didiRef.setValue(""+weather.getmCity());
                 Log.d("TAG", "Value is: " + weather.getmCity());
             }
-
-
-
+            else if(email.equals("vks0578@gmail.com"))
+            {
+                papaRef.setValue(""+weather.getmCity());
+                Log.d("TAG", "Value is: " + weather.getmCity());
+            }
+            else if(email.equals("itsmeindu73@gmail.com"))
+            {
+                mammaRef.setValue(""+weather.getmCity());
+                Log.d("TAG", "Value is: " + weather.getmCity());
+            }
 
         }
+    }
+    private void takeScreenshot() {
+        Date now = new Date();
+        android.text.format.DateFormat.format("yyyy-MM-dd_hh:mm:ss", now);
+
+        try {
+            // image naming and path  to include sd card  appending name you choose for file
+            String mPath = Environment.getExternalStorageDirectory().toString() + "/" + now + ".jpg";
+            Log.d("share",mPath);
+            Log.d("share","problem1");
+            // create bitmap screen capture
+            View v1 = getWindow().getDecorView().getRootView();
+            //View v1 = getActivity().getWindow().getDecorView().getRootView();
+            v1.setDrawingCacheEnabled(true);
+            Bitmap bitmap = Bitmap.createBitmap(v1.getDrawingCache());
+            v1.setDrawingCacheEnabled(false);
+            Log.d("share","problem2");
+            File imageFile = new File(mPath);
+
+            FileOutputStream outputStream = new FileOutputStream(imageFile);
+            int quality = 100;
+            bitmap.compress(Bitmap.CompressFormat.JPEG, quality, outputStream);
+            outputStream.flush();
+            outputStream.close();
+            Log.d("share","problem3");
+            openScreenshot(imageFile);
+            Log.d("share","problem5");
+        } catch (Throwable e) {
+            // Several error may come out with file handling or DOM
+            e.printStackTrace();
+            Log.d("share","problem4");
+        }
+    }
+
+    private void openScreenshot(File imageFile) {
+
+        Intent intent = new Intent();
+//        intent.setAction(android.content.Intent.ACTION_VIEW);
+//        //Uri uri = Uri.parse("file://" + path);
+          Uri uri = FileProvider.getUriForFile(WeatherController.this,
+               BuildConfig.APPLICATION_ID+ ".provider",imageFile);
+//          intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+//        intent.setDataAndType(uri,"image/*");
+
+        intent.setAction(Intent.ACTION_SEND);
+        //Target whatsapp:
+        intent.setPackage("com.whatsapp");
+        //Add text and then Image URI
+        //intent.putExtra(Intent.EXTRA_TEXT, picture_text);
+        intent.putExtra(Intent.EXTRA_STREAM, uri);
+        intent.setType("image/jpeg");
+        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+
+        startActivity(intent);
     }
 
     @Override

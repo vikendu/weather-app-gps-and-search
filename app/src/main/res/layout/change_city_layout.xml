@@ -30,7 +30,7 @@
 
         android:hint="@string/default_query"
         android:background="@color/white"
-        android:textSize="30sp"
+        android:textSize="30dp"
         android:inputType="textAutoCorrect"
         android:id="@+id/queryET"
         android:textColor="@color/black"
@@ -47,6 +47,6 @@
         android:text="@string/get_weather"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:textColor="@color/white"
-        android:textSize="50sp" />
+        android:textSize="50dp" />
 
 </RelativeLayout>
