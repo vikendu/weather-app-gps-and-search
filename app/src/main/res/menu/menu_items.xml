@@ -18,6 +18,24 @@
             android:icon="@drawable/baseline_warning_black_18dp"
             android:title="Report an issue" />
     </group>
+    <group android:checkableBehavior="single"
+        android:id="@+id/mid">
+        <item android:id="@+id/didi"
+            android:icon="@drawable/didi"
+            android:title="Didi"/>
+        <item android:id="@+id/me"
+            android:icon="@drawable/vidu"
+            android:title="Vidu"
+            />
+        <item android:id="@+id/papa"
+            android:icon="@drawable/papa"
+            android:title="Papa"
+            />
+        <item android:id="@+id/mamma"
+            android:icon="@drawable/mamma"
+            android:title="Mamma"/>
+    </group>
+
     <group android:id="@+id/bottom"
         android:checkableBehavior="single">
 

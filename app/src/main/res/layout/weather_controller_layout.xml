@@ -122,6 +122,17 @@
             app:srcCompat="@drawable/baseline_menu_white_24dp" />
 
         <TextView
+            android:id="@+id/locationof"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="106dp"
+            android:textAllCaps="true"
+            android:textColor="#FFFFFF"
+            app:layout_constraintBottom_toTopOf="@+id/locationTV"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/frameLayout" />
+
+        <TextView
             android:id="@+id/condition"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -162,6 +173,8 @@
 
             />
     </FrameLayout>
+
+
 
     </android.support.constraint.ConstraintLayout>
 

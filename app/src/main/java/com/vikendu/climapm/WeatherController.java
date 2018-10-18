@@ -26,6 +26,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.ValueEventListener;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
@@ -36,6 +41,9 @@ import java.util.Calendar;
 import java.util.Date;
 
 import cz.msebera.android.httpclient.Header;
+
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 
 public class WeatherController extends AppCompatActivity {
@@ -61,9 +69,15 @@ public class WeatherController extends AppCompatActivity {
     NavigationView mNavigationView;
     DrawerLayout mDrawer;
     TextView mCredits;
+    TextView mLocationAt;
 
     LocationManager mLocationManager;
     LocationListener mLocationListner;
+
+    DatabaseReference rootRef, didiRef, viduRef;
+
+    Boolean flag;
+
 
 
     @Override
@@ -83,22 +97,33 @@ public class WeatherController extends AppCompatActivity {
         mCondition = (TextView)findViewById(R.id.condition);
         mNavigationView = findViewById(R.id.nav_view);
         mDrawer = findViewById(R.id.my_drawer);
+        mLocationAt = findViewById(R.id.locationof);
 
         View header = mNavigationView.getHeaderView(0);
         mCredits = header.findViewById(R.id.credits);
 
+        flag = false;
+
         Date currentTime = Calendar.getInstance().getTime();
         mCredits.setText("Last Updated: "+currentTime);
+
+        //database reference pointing to root of database
+        rootRef = FirebaseDatabase.getInstance().getReference();
+        //database reference pointing to user specific node
+        didiRef = rootRef.child("didi");
+        viduRef = rootRef.child("vidu");
 
         mNavigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
                 //menuItem.setChecked(true);
                 if(menuItem.getTitle().equals("Report an issue")) {
-                    Log.d("drawer", "touch detected");
-                    Intent i = new Intent(Intent.ACTION_VIEW,
-                            Uri.parse("https://github.com/vikendu/weather-app-gps-and-search"));
-                    startActivity(i);
+//                    Log.d("drawer", "touch detected");
+//                    Intent i = new Intent(Intent.ACTION_VIEW,
+//                            Uri.parse("https://github.com/vikendu/weather-app-gps-and-search"));
+//                    startActivity(i);
+                    Toast.makeText(WeatherController.this, "Not for you!", Toast.LENGTH_SHORT).show();
+
                 }
                 else if(menuItem.getTitle().equals("Change Location"))
                 {
@@ -125,6 +150,59 @@ public class WeatherController extends AppCompatActivity {
                     getWeatherForCurrentLocation();
                     Toast.makeText(WeatherController.this, "Refreshing Location...", Toast.LENGTH_SHORT).show();
                 }
+                else if(menuItem.getTitle().equals("Vidu"))
+                {
+                    viduRef.addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            // This method is called once with the initial value and again
+                            // whenever data at this location is updated.
+                            String value = dataSnapshot.getValue(String.class);
+                            Log.d("TAG", "Value is: " + value);
+                            getWeatherForNewCity(value);
+                            mLocationAt.setText("Vidu is at:");
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError error) {
+                            // Failed to read value
+                            Log.w("TAG", "Failed to read value.", error.toException());
+                        }
+                    });
+
+                    Toast.makeText(WeatherController.this, "Vidu's Location!", Toast.LENGTH_SHORT).show();
+
+                }
+                else if(menuItem.getTitle().equals("Didi"))
+                {
+                    didiRef.addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            // This method is called once with the initial value and again
+                            // whenever data at this location is updated.
+                            String value = dataSnapshot.getValue(String.class);
+                            Log.d("TAG", "Value is: " + value);
+                            getWeatherForNewCity(value);
+                            mLocationAt.setText("Didi is at:");
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError error) {
+                            // Failed to read value
+                            Log.w("TAG", "Failed to read value.", error.toException());
+                        }
+                    });
+                    //getWeatherForNewCity("New Delhi");
+                    Toast.makeText(WeatherController.this, "Didi's Location!", Toast.LENGTH_SHORT).show();
+
+                }
+                else if(menuItem.getTitle().equals("Mamma") || menuItem.getTitle().equals("Papa") )
+                {
+                    getWeatherForNewCity("Jaisalmer");
+                    mLocationAt.setText("Mamma & Papa are at:");
+                    Toast.makeText(WeatherController.this, "Refreshing Location...", Toast.LENGTH_SHORT).show();
+
+                }
                 else {}
 
                 mDrawer.closeDrawer(Gravity.START);
@@ -148,19 +226,24 @@ public class WeatherController extends AppCompatActivity {
         Log.d("weatherapp", "onResume Called");
         if(city != null)
         {
+            flag = false;
             getWeatherForNewCity(city);
         }
         else
             {
+                flag = true;
         getWeatherForCurrentLocation();
     }}
 
     private void getWeatherForNewCity(String city)
     {
+        flag = false;
+        mLocationAt.setText("");
         RequestParams params = new RequestParams();
         params.put("q",city);
         params.put("appid", APP_ID);
         letsDoSomeNetworking(params);
+
     }
 
     private void getWeatherForCurrentLocation() {
@@ -182,7 +265,10 @@ public class WeatherController extends AppCompatActivity {
                 params.put("lat", latitude);
                 params.put("lon", longitude);
                 params.put("appid", APP_ID);
+                flag = true;
                 letsDoSomeNetworking(params);
+                mLocationAt.setText("");
+
 
             }
 
@@ -200,14 +286,14 @@ public class WeatherController extends AppCompatActivity {
             public void onProviderDisabled(String provider) {
                 for(int i = 0; i < 2; i++) {
                     //mCityLabel.setText("GPS Disabled...");
-                    Toast.makeText(WeatherController.this, "Turn GPS on!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(WeatherController.this, "Turn on Location!", Toast.LENGTH_SHORT).show();
                 }
                 Log.d("weatherapp", "Provider disabled Callback");
 
             }
         };
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consi        android:noHistory="true"der calling
+
             //    ActivityCompat#requestPermissions
             // here to request the missing permissions, and then overriding
             //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
@@ -250,6 +336,8 @@ public class WeatherController extends AppCompatActivity {
 
                 WeatherDataModel weatherData = WeatherDataModel.fromJson(response);
                 updateUI(weatherData);
+                if(flag == true){
+                updateUser(weatherData);}
 
             }
 
@@ -272,9 +360,33 @@ public class WeatherController extends AppCompatActivity {
         mSpeed.setText("Wind Speed: "+weather.getSpeed()+"Km/Hr");
         mCondition.setText("\""+weather.getCondition()+"\"");
 
+
         int resourceID = getResources().getIdentifier(weather.getmIconName(), "drawable", getPackageName());
 
         mWeatherImage.setImageResource(resourceID);
+    }
+
+    private void updateUser(WeatherDataModel weather)
+    {
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if (user != null) {
+            // Name, email address, and profile photo Url
+            String email = user.getEmail();
+            Log.d("name", "name is" + email);
+            if (email.equals("vikendu@gmail.com")) {
+                viduRef.setValue(""+weather.getmCity());
+                Log.d("TAG", "Value is: " + weather.getmCity());
+            }
+            else if(email.equals("aditi.singh11192@gmail.com"))
+            {
+                didiRef.setValue(""+weather.getmCity());
+                Log.d("TAG", "Value is: " + weather.getmCity());
+            }
+
+
+
+
+        }
     }
 
     @Override
