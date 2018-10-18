@@ -6,6 +6,16 @@ This app requires Location permission.
 Update:
 This app can only be used by me and my family members, to share each other's location as well as the weather in their current location using FireBaseDB.
 
+Features:
+Asynchronous HTTP Client(UI thread never stops)
+Location Data using Mobile Networks.
+Last known location stored in FireBase DB.
+Access to every other family member's location.
+Login controlled by admin.
+Location access by coordinates or name.
+In-app ability to report issues on my GitHub.
+In-app screenshot function(Saved to internal storage).
+Share Weather-Location on WhatsApp.
+
 Bugs:
 Let me know(with logs)
-
