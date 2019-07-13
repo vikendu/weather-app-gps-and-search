@@ -1,5 +1,5 @@
 # weather-app-gps-and-search
-This app uses open weather's api to get weather by either using the gps co-ordinates or by name, this app implements INTENT and HTTP asynchronous Client.
+This app uses open weathermap's api to get weather by either using the gps co-ordinates or by name, this app allows you and your family to share your locations as well as the current weather using socials.  
 Use your own API key. You can get free API key on openweathermaps.com
 This app requires Location permission.
 
