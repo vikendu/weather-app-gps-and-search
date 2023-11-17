@@ -18,4 +18,4 @@ In-app screenshot function(Saved to internal storage).
 Share Weather-Location on WhatsApp.  
 
 Bugs:
-Let me know(with logs)
+
